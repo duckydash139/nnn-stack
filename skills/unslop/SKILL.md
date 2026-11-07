@@ -34,7 +34,7 @@ Without a sample, match the text type. Personal writing keeps opinions, uncertai
 7. **Repeated openings.** Several sentences start with the same subject. Merge, change the subject, or start with the action.
 8. **Synonym cycling.** Protagonist, main character, central figure, hero. Pick one name and repeat it.
 9. **False ranges.** "From X to Y" without a real scale. List the items directly.
-10. **Dashes.** No em or en dashes unless the writing sample uses them. Use a period, comma, or colon. Parentheses are only for a genuine aside.
+10. **Dashes.** No em or en dashes unless the writing sample uses them. Use a period, comma, or colon. Parentheses are only for a genuine aside (see 31).
 11. **Colon overuse.** No colon as a mid-sentence connector. Keep it before a list or example.
 12. **Stacked qualifiers.** "Could potentially", "might arguably", "it's also possible". Keep only real doubt or scope.
 13. **Hyphenated pairs.** Hyphenate before a noun, not after: "a high-quality report", "the report is high quality".
@@ -67,13 +67,14 @@ Without a sample, match the text type. Personal writing keeps opinions, uncertai
 ## Wrong reader
 
 30. **Re-explaining known context.** Lead with the decision. Keep only the fact the reader lacks and the link they need to act. Put diagnosis and proof in the follow-up document.
+31. **Parenthetical extras.** "(via the retry wrapper)", "(stored in Redis)", "(this uses a debounce under the hood)". Ask whether the reader needs it to act or understand. If not, cut it. If so, make it its own sentence.
 
 ## Plain speech
 
-31. **Active voice.** Name the actor: "queries are validated" becomes "the compiler validates queries". Passive is fine when the actor is unknown.
-32. **Say what it does, not how it feels.** Replace "SQL you can read" with the mechanism or number: "`.toSQL()` returns the exact string sent to the database".
-33. **Split dense sentences.** One idea per sentence. Break or drop clauses if the reader has to backtrack.
-34. **Cut adverbs.** Use a stronger verb or the measured number. "Significantly improves" becomes the measured delta.
+32. **Active voice.** Name the actor: "queries are validated" becomes "the compiler validates queries". Passive is fine when the actor is unknown.
+33. **Say what it does, not how it feels.** Replace "SQL you can read" with the mechanism or number: "`.toSQL()` returns the exact string sent to the database".
+34. **Split dense sentences.** One idea per sentence. Break or drop clauses if the reader has to backtrack.
+35. **Cut adverbs.** Use a stronger verb or the measured number. "Significantly improves" becomes the measured delta.
 
 ## When not to act
 

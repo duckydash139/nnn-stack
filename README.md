@@ -28,6 +28,7 @@ Start any non-trivial task with `/nnn-stack:nnn-mode`. It restates the goal, rea
 | `skills/nnn-mode/` | The router and 14 playbooks |
 | `skills/principle-*` | pstack's 24 principles |
 | `skills/*verification*`, `statechart` | pstack's verification generators |
+| `typescript-stack` | New. The TypeScript stack (pnpm, Effect, XState, Foldkit, Alchemy), its rules, gate and fence, and playbooks for a new repo, actions, lifecycles, stores, web, and infra |
 | `prove-behavior` | New. What to prove and how much: risk tiers, time budgets, bad journeys, laws, audits |
 | `how`, `why`, `architect`, `interrogate`, `correct`, `in-your-own-words`, `blast-radius`, `benchmark-checklist` | pstack skills the router calls |
 | `scrutinize`, `dependency-usage-grounding`, `auto-research`, `unslop` | New skills |

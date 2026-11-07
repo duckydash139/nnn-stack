@@ -29,6 +29,9 @@ Bundled skills live at `../<name>/SKILL.md` from this file. Playbooks live at `p
 - Mapping tunable parameters or optimizing against a benchmark → **auto-research**. A measured number you will report or act on → **benchmark-checklist**.
 - Any prose, your reply included, and every doc, PR body, or commit message → **unslop**.
 - The same correction a second time → **correct**. Encode it in structure (a lint rule, a check, a test) per the **encode-lessons-in-structure** principle skill, not more prose.
+- The user names a stack or template ("use <repo, site, or package>") → that stack supplies the stack rules, not **typescript-stack**. Read its agent guide first: the site's `/llms.txt` if it has one, then the template's `AGENTS.md`. For a new repo, start from the template the way its guide says (clone or copy it), then follow the next trigger.
+- The repo's `AGENTS.md` names its own router or stack skills → read them from the checkout. Treat its playbooks and principles as project playbooks next to these, in one todo list. Its gate, pins, and rules win. Report principles from both sets.
+- A TypeScript repo (a `tsconfig.json`, or `typescript` in `package.json`), or a new repo that will be TypeScript, and neither trigger above applies → load **typescript-stack** before planning. It adds the stack, its rules, and its playbooks to this list, and a new repo starts with its new-repo playbook.
 - No playbook fits → design a short bespoke playbook from the principles, write its steps into the todo list, and say so.
 
 ## Verification ladder
@@ -58,6 +61,8 @@ Each **principle-*** skill holds one rule. Open every one that bears on a decisi
 Match every playbook that applies. Open each one and copy its steps into the todo list before task-specific steps. A skipped step stays as `skip: <reason>`. Finish with each playbook's reply requirements.
 
 **Work shapes** (`playbooks/`): investigation, bug-fix, perf-issue, hillclimb, runtime-forensics, trace-forensics, feature, refactoring, prototype, autonomous-run, session-pickup, pause-safely, authoring-a-skill, and opening-a-pr at the end of any change.
+
+**Stack playbooks** (TypeScript, from **typescript-stack**): new-repo, capability, lifecycle, store, web, infra. They stack with the work shapes: a feature that adds an action and a table runs feature, capability, and store.
 
 ## Autonomy
 
