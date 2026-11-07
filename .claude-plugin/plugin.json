@@ -1,0 +1,9 @@
+{
+  "name": "nnn-stack",
+  "version": "0.1.0",
+  "description": "pstack's principles and verification skills plus new skills, routed by nnn-mode.",
+  "author": {
+    "name": "nnn"
+  },
+  "license": "MIT"
+}

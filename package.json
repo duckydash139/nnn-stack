@@ -1,0 +1,10 @@
+{
+  "name": "nnn-stack",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/check.mjs && claude plugin validate .",
+    "sync": "node scripts/sync.mjs status",
+    "sync:apply": "node scripts/sync.mjs apply"
+  }
+}

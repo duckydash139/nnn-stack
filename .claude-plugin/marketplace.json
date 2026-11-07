@@ -1,0 +1,14 @@
+{
+  "name": "nnn",
+  "owner": {
+    "name": "nnn"
+  },
+  "description": "nnn's curated skills: pstack principles and verification, plus new skills.",
+  "plugins": [
+    {
+      "name": "nnn-stack",
+      "source": "./",
+      "description": "nnn-mode, principles, and verification."
+    }
+  ]
+}
