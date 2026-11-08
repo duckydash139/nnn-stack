@@ -1,0 +1,5 @@
+{
+  "laws": "packages/spec/laws.ts",
+  "prefixes": {},
+  "retiredIds": []
+}

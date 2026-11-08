@@ -256,6 +256,8 @@ Declare every env var in `.env.schema` with its type and whether it's secret. Re
 
 Add `packages/core` with one service and one test, shaped as in [effect.md](effect.md). It gives the gate real work.
 
+Then set up journeys and laws with [journeys.md](journeys.md#set-it-up), so the first brief has somewhere to land and the gate checks the pages from the start.
+
 ## 8. AGENTS.md
 
 ```md
@@ -270,6 +272,8 @@ For non-trivial work, use nnn-mode. This repo follows the typescript-stack skill
 - `pnpm typecheck:fast`: plain types in seconds (tsrs), no Effect diagnostics, not proof
 - `pnpm test`: Vitest across the workspace
 - `pnpm fix`: rewrite formatting and safe lint fixes
+- `pnpm spec:generate`: rewrite the journey pages in `journeys/docs/`, in the same commit as any journey, flow, law, or `check()` change
+- `pnpm mutants`: mutant-cafe on the lines changed since `main`, a deep run that never goes in the gate
 - Fast loop: `pnpm --filter <pkg> exec vitest run <path>`
 
 ## Packages

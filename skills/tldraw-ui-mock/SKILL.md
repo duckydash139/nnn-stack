@@ -9,6 +9,8 @@ Put a mock on a tldraw Desktop board, let the user mark it up, then read that fe
 
 Create boards with `POST /api/docs/create`, and pass the user's project folder as `directory`, because the default is Documents. Keep the `.tldraw` file and every HTML source in the project: a board stores only images or the packaged page, and the source is useless without its board. Both scripts print the board's path, so if a board lives outside the project, tell the user.
 
+When a brief from **writing-expectations** covers the feature, draw from it: one screen or state per journey step, plus each bad case's screen, such as empty, error, or rejected. Use the brief's glossary words in labels. The mock shows how the product looks. It never adds or changes what the brief says the product does. A note that would change behavior goes back to the human as a brief change.
+
 ## Pick the route
 
 | The user wants | Route | Result |

@@ -83,7 +83,7 @@ Every repo on this stack has one command that decides "ready":
 pnpm gate     # pnpm build && pnpm check && pnpm test
 ```
 
-`check` covers the lockfile, the effect-tsrs typecheck, lint, and format. In the edit loop, `pnpm typecheck:fast` (tsrs) answers in seconds but skips Effect diagnostics, so it never counts as passing. `AGENTS.md` names the gate, and lefthook runs `check` and `test` before each commit.
+`check` covers the lockfile, the effect-tsrs typecheck, lint, format, and the journey spec (`pnpm spec`: stale pages, malformed journeys, unproven laws). In the edit loop, `pnpm typecheck:fast` (tsrs) answers in seconds but skips Effect diagnostics, so it never counts as passing. `AGENTS.md` names the gate, and lefthook runs `check` and `test` before each commit.
 
 **The fence.** These checks are what make a shortcut fail loudly:
 
@@ -106,12 +106,13 @@ Match every playbook that applies, as nnn-mode does. An action that adds persist
 | A screen or flow in the web app | [references/web.md](references/web.md) |
 | Cloud resources or deploys | [references/infra.md](references/infra.md) |
 | Service, Layer, config, or error shapes | [references/effect.md](references/effect.md) |
+| A journey, flow, law, or brief line to file, or setting up journey pages | [references/journeys.md](references/journeys.md) |
 
 ## Sign-off
 
 Safe by default: a new action, service, or machine; new or tighter tests; a lint rule that tightens; a targeted override with its reason; doc edits; `infra:plan`.
 
-Needs the owner: adding or bumping a dependency; anything that loosens the fence; a deploy whose plan replaces or deletes a resource; destroying a stack; exposing a local-only server beyond localhost.
+Needs the owner: adding or bumping a dependency; any change to `journeys/` (other than its generated `docs/`), `packages/spec/laws.ts`, or `breaks/`; anything that loosens the fence; a deploy whose plan replaces or deletes a resource; destroying a stack; exposing a local-only server beyond localhost.
 
 ## Report
 

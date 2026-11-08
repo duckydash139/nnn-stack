@@ -2,6 +2,8 @@
 
 The web app is Foldkit with SSR, built by one `vite build` and served by Alchemy's `Website.Foldkit` as one Worker. If a Foldkit skill is installed, load it for the framework's own conventions. Otherwise, read the installed package's docs and examples for the pinned version.
 
+When a **tldraw-ui-mock** board was approved for the feature, build its screens and states, including the empty, error, and rejected ones. Use the board's labels as the accessible names, so journeys and the `verify-<app>` skill find the same handles.
+
 ## Where things go
 
 A feature is one folder in `packages/features/<name>/`, split by where its code runs. The package is imported by path (`@app/features/<name>/web/<file>.ts`, or `#/<name>/shared/<file>.ts` inside the package), with no barrel files.

@@ -2,6 +2,7 @@
 
 **You own the design. Plan, review, verify.** Delegate implementation. Stay in the lead.
 
+0. If a brief from `writing-expectations` covers this feature, read it, its roadmap, and its chart first. Its lines, journeys, and `Every path:` notes are the success criteria. Its `Not expectations` notes are input to the design, not lines. Settle each `Suspected bug:` note with **prove-behavior**'s audit before building on that code. A line you can't build as written goes back to the human, never reworded. If a **tldraw-ui-mock** board was approved for this feature, read it too. Its screens and states are design input. Where the board and the brief disagree, the brief wins, and you tell the human.
 1. `how` over the affected subsystem.
 2. `architect` for parallel design exploration.
 3. Write the throughput checkpoint as four todo items. A dimension that genuinely does not apply (single file, no fan-out) keeps its item with `n/a: <reason>` rather than being dropped:

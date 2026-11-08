@@ -1,0 +1,288 @@
+{
+  "title": "Noon Box team lunches",
+  "milestone": "Milestone 2: paying for a day",
+  "context": {
+    "summary": "Noon Box lets a team book and pay for lunch one day at a time. This draft adds paying for a day.",
+    "today": "A team can place an order on a free day, and the order holds that day until someone cancels it.",
+    "changes": "An order now needs a payment to confirm its day, and an unpaid hold runs out.",
+    "outOfScope": [
+      "Refunds through the admin screen.",
+      "Invoices for the whole month."
+    ]
+  },
+  "chart": "stateDiagram-v2\n  direction TB\n  state \"Day free\" as DayFree\n  state \"Held by unpaid order\" as HeldUnpaid\n  state \"Held by confirmed order\" as HeldConfirmed\n  state \"Late payment waiting\" as LatePayment\n  state \"Money sent back\" as Refunded\n  state \"Two orders on one day\" as TwoOrders\n  [*] --> DayFree\n  DayFree --> HeldUnpaid : place order\n  HeldUnpaid --> HeldConfirmed : first payment lands\n  HeldUnpaid --> DayFree : hold runs out\n  HeldConfirmed --> DayFree : order cancelled\n  HeldConfirmed --> LatePayment : late payment lands\n  LatePayment --> Refunded : send money back\n  LatePayment --> TwoOrders : confirm both\n  Refunded --> HeldConfirmed : day stays as it was\n  HeldConfirmed --> [*] : lunch delivered\n  class TwoOrders breaks",
+  "journeys": [
+    {
+      "name": "Book a team lunch for a day",
+      "who": "Ann, who orders for the Harbour Street team",
+      "startsFrom": "The week view, with Friday showing as free",
+      "wants": "Lunch for her team on Friday, paid and confirmed",
+      "steps": [
+        {
+          "name": "Pick a day and place the order",
+          "lines": [
+            "WHEN a team member places an order on a free day, THE SYSTEM SHALL hold that day for the order.",
+            "WHEN an order holds a day, THE SYSTEM SHALL show the day as held and name the person who placed it.",
+            "WHILE an order is unpaid, THE SYSTEM SHALL show how long the hold has left."
+          ],
+          "failures": [
+            {
+              "when": "the day is held by a confirmed order",
+              "then": "the order is refused and the page offers the next free day."
+            }
+          ]
+        },
+        {
+          "name": "Pay for the order",
+          "lines": [
+            "WHEN payment lands while the order still holds the day, THE SYSTEM SHALL confirm the order.",
+            "WHEN an order is confirmed, THE SYSTEM SHALL tell the person who placed it."
+          ],
+          "failures": [
+            {
+              "when": "the card is declined",
+              "then": "the hold stays and the person can try again until it runs out."
+            },
+            {
+              "when": "the hold runs out before payment lands",
+              "then": "the day goes back to free and the person is told."
+            }
+          ]
+        },
+        {
+          "name": "Lunch arrives",
+          "lines": [
+            "WHEN the delivery is marked done, THE SYSTEM SHALL close the order and keep the receipt."
+          ],
+          "failures": []
+        }
+      ],
+      "holds": [
+        {
+          "rule": "OneOrderPerDay",
+          "text": "a team has at most one confirmed order for each delivery day."
+        },
+        {
+          "text": "Every order keeps the name of the person who placed it."
+        }
+      ]
+    },
+    {
+      "name": "Move an order to another day",
+      "who": "Cara, who looks after orders when Ann is away",
+      "startsFrom": "An open order on Tuesday",
+      "wants": "The same lunch on Friday instead",
+      "steps": [
+        {
+          "name": "Choose the new day",
+          "lines": [
+            "WHEN a team member amends an order into a free day, THE SYSTEM SHALL move the hold to that day.",
+            "WHEN an order moves, THE SYSTEM SHALL free the day it left."
+          ],
+          "failures": [
+            {
+              "when": "the new day is held by a confirmed order",
+              "then": "the move is refused and the order stays on Tuesday."
+            }
+          ]
+        },
+        {
+          "name": "Confirm the change",
+          "lines": [
+            "WHEN the amended order is already paid, THE SYSTEM SHALL keep the payment and confirm the new day."
+          ],
+          "failures": []
+        }
+      ],
+      "holds": [
+        {
+          "rule": "OneOrderPerDay",
+          "text": "moving an order never leaves two confirmed orders on one day."
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "OneOrderPerDay",
+      "statement": "A team has at most one confirmed order for each delivery day.",
+      "columns": [
+        "Day free",
+        "Held by confirmed order",
+        "Held by unpaid order"
+      ],
+      "rows": [
+        {
+          "door": "Place order",
+          "cite": "app/orders/place.ts:41",
+          "cells": [
+            "Order holds the day, unpaid",
+            "Refused, next free day offered",
+            "Order joins as a second unpaid hold, first to pay takes the day"
+          ]
+        },
+        {
+          "door": "Amend into this day",
+          "cite": "app/orders/amend.ts:88",
+          "cells": [
+            "Hold moves to this day",
+            "Refused, order stays where it was",
+            {
+              "decision": "amend-into-held-day"
+            }
+          ]
+        },
+        {
+          "door": "Late payment lands",
+          "cite": "app/payments/webhook.ts:112",
+          "cells": [
+            "Order confirmed if the team has no other hold",
+            {
+              "decision": "late-payment-after-rival"
+            },
+            "Order confirmed, other unpaid holds dropped"
+          ]
+        },
+        {
+          "door": "Admin edit",
+          "cells": [
+            "Allowed and logged",
+            {
+              "decision": "admin-into-held-day"
+            },
+            "Allowed and logged"
+          ]
+        }
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "late-payment-after-rival",
+      "tier": "decide",
+      "title": "A payment lands on a day someone else already paid for",
+      "story": "Ann's order is unpaid and holds Friday. Ben pays for Friday first, so his order is confirmed. Ann's payment lands an hour later. Her money has arrived, but Friday is gone.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Send Ann's money back and tell her Friday went to Ben."
+        },
+        {
+          "key": "B",
+          "text": "Keep the money as team credit and tell Ann to pick another day."
+        },
+        {
+          "key": "C",
+          "text": "Move Ann's order to the next free day and take the payment for that."
+        }
+      ],
+      "states": [
+        "LatePayment",
+        "TwoOrders"
+      ]
+    },
+    {
+      "id": "amend-into-held-day",
+      "tier": "decide",
+      "title": "Moving an order onto a day held by an unpaid order",
+      "story": "Cara's paid order sits on Tuesday and she moves it to Friday. Ann's unpaid order holds Friday. Cara has paid and Ann has not, but Ann got there first.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Refuse the move until Ann's hold runs out."
+        },
+        {
+          "key": "B",
+          "text": "Let Cara take Friday because she has paid, and tell Ann her hold was dropped."
+        }
+      ],
+      "states": [
+        "HeldUnpaid"
+      ]
+    },
+    {
+      "id": "admin-into-held-day",
+      "tier": "decide",
+      "title": "An admin edit lands on a day with a confirmed order",
+      "story": "Dee from support moves a customer's order onto Friday to fix a mistake. Ben's confirmed order already has Friday. Dee can see Ben's order, but Ben is not at his desk to agree.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Refuse it. Dee has to move Ben's order first."
+        },
+        {
+          "key": "B",
+          "text": "Allow it with a reason, and mark the day as two orders on purpose."
+        },
+        {
+          "key": "C",
+          "text": "Allow it and move Ben's order to the next free day."
+        }
+      ],
+      "states": [
+        "HeldConfirmed",
+        "TwoOrders"
+      ]
+    },
+    {
+      "id": "unpaid-hold-length",
+      "tier": "glance",
+      "title": "How long an unpaid order holds a day",
+      "story": "Elif places an order at 10:00 and goes into a meeting. Her card details are in the other room, and Farid wants the same day.",
+      "options": [
+        {
+          "key": "A",
+          "text": "15 minutes."
+        },
+        {
+          "key": "B",
+          "text": "30 minutes."
+        },
+        {
+          "key": "C",
+          "text": "Until the order deadline for that day."
+        }
+      ],
+      "proposed": "B",
+      "states": [
+        "HeldUnpaid"
+      ]
+    },
+    {
+      "id": "late-payment-notice",
+      "tier": "glance",
+      "title": "How Ann hears about her late payment",
+      "story": "Ann paid from her phone and closed the page. Her payment was late, and she needs to know what happened to the money before she goes to lunch.",
+      "options": [
+        {
+          "key": "A",
+          "text": "An email straight away."
+        },
+        {
+          "key": "B",
+          "text": "An email and a banner the next time she opens the app."
+        }
+      ],
+      "proposed": "B",
+      "states": [
+        "Refunded"
+      ]
+    }
+  ],
+  "lowStakes": [
+    "THE SYSTEM SHALL start the week view on Monday.",
+    "IF a team member picks a past day, THEN THE SYSTEM SHALL keep it unselected.",
+    "THE SYSTEM SHALL label the order button Place order.",
+    "THE SYSTEM SHALL show prices with two decimal places.",
+    "THE SYSTEM SHALL keep each receipt for seven years.",
+    "THE SYSTEM SHALL send confirmation emails from lunch at noonbox.example.",
+    "WHILE an order is unpaid, THE SYSTEM SHALL count its hold down in minutes.",
+    "THE SYSTEM SHALL show team names in full on the week view.",
+    "THE SYSTEM SHALL wrap a long dish name onto a second line.",
+    "WHEN a team member opens the menu, THE SYSTEM SHALL show the current week.",
+    "WHILE a week has no orders, THE SYSTEM SHALL show a short line and a link to the menu.",
+    "THE SYSTEM SHALL show dates in the team's own time zone.",
+    "THE SYSTEM SHALL show the delivery window beside each order.",
+    "THE SYSTEM SHALL number orders from 1000."
+  ]
+}

@@ -20,6 +20,8 @@ Bundled skills live at `../<name>/SKILL.md` from this file. Playbooks live at `p
 
 ## Triggers
 
+- A new product, a milestone, or a feature whose behavior the human hasn't pinned down → suggest `/nnn-stack:writing-expectations` before any playbook. It's human-invoked, so offer it rather than load it. A brief or roadmap from it (`docs/brief-*.md`, `docs/roadmap.md`) is the approved source for what to build: read it first and build only what its lines say.
+- A feature with new or changed screens and no agreed design → suggest **tldraw-ui-mock** before building, after the brief when there is one. Skip it for small UI changes. An approved board is design input: read it with the brief.
 - Nontrivial change, architecture decision, or "are we sure?" → **how**. Motivation or history → **why**.
 - Using an external library, framework, or API → **dependency-usage-grounding** before reading installed package source.
 - Any fork you could settle by running something → the Prototype playbook, not a question to the human.

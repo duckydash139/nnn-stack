@@ -1,0 +1,29 @@
+{
+  "name": "@<scope>/journeys",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#/*": "./*"
+  },
+  "scripts": {
+    "typecheck": "effect-tsrs diagnostics --project tsconfig.json --strict --type-check",
+    "typecheck:fast": "tsrs --noEmit -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@<scope>/features": "workspace:*",
+    "@<scope>/spec": "workspace:*",
+    "@<scope>/web": "workspace:*",
+    "@effect/language-service": "catalog:",
+    "@effect/vitest": "catalog:",
+    "@types/node": "catalog:",
+    "@yielded/effect-tsrs": "catalog:",
+    "effect": "catalog:",
+    "foldkit": "catalog:",
+    "happy-dom": "catalog:",
+    "tsrs": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

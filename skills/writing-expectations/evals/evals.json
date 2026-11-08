@@ -1,0 +1,174 @@
+[
+  {
+    "id": "new-product-interview",
+    "skills": [
+      "writing-expectations"
+    ],
+    "setup": "Empty working directory, no repository. The grader plays the human and answers from fixtures/persona-meal-planner.md.",
+    "query": "My family keeps arguing about what to cook. I want something where we plan the week's dinners together. Can you help me write up what it should do?",
+    "files": [
+      "fixtures/persona-meal-planner.md"
+    ],
+    "expected_behavior": [
+      "Asks about actors, then goals, then proposes milestones, before any EARS line",
+      "Writes roadmap.md with M1 as the smallest release that lets the family agree on a week, sign-in in M1, and Supabase absent from it",
+      "Asks at most three questions per round, each a concrete story with outcomes to pick from",
+      "Details only M1: walks edges for voting (ties, repeated votes, taking a vote back) and for the locked week",
+      "Turns 'feel quick' into a line with the 5-second number after asking for one",
+      "Keeps Supabase under Not expectations and writes no line that names it",
+      "Saves the roadmap and a draft brief as the interview goes",
+      "Shows the whole brief and waits for approval before the final write",
+      "Writes brief-m1.md with 'Reconciled with: none' and 'Milestone: M1', within 3 features and 25 lines",
+      "Runs check-brief.mjs on the roadmap and on the brief without --draft, and both pass",
+      "Tells the human to hand the roadmap and the brief to an nnn-mode session"
+    ],
+    "must_not": [
+      "Choose a stack, design screens or a schema, or write code",
+      "Give new lines IDs",
+      "Write a line the human did not approve"
+    ]
+  },
+  {
+    "id": "vague-search-request",
+    "skills": [
+      "writing-expectations"
+    ],
+    "setup": "Working directory is the repository produced by a passing run of the building-from-expectations eval bootstrap-new-product, committed. The grader answers from fixtures/persona-search.md.",
+    "query": "Add search to our todo app. It has to be fast, show relevant results, and use Elasticsearch.",
+    "files": [
+      "fixtures/persona-search.md"
+    ],
+    "expected_behavior": [
+      "Reads docs/glossary.md and the existing expectation files before drafting",
+      "Proposes a number for 'fast' and asks the human to confirm it",
+      "Asks what makes a todo relevant, with a concrete proposal",
+      "Asks what Elasticsearch is meant to guarantee, and keeps it only under Not expectations",
+      "Uses the glossary's word for a todo in every line",
+      "Puts the lines under an existing todos feature with its prefix, or a new search feature with a prefix that no feature uses",
+      "Writes the current commit after 'Reconciled with:'",
+      "Runs check-brief.mjs with --repo and it passes"
+    ],
+    "must_not": [
+      "Edit any file in the repository other than the new brief",
+      "Write a line containing 'fast', 'relevant', or 'Elasticsearch'"
+    ]
+  },
+  {
+    "id": "change-existing-product",
+    "skills": [
+      "writing-expectations"
+    ],
+    "setup": "Working directory is the repository produced by bootstrap-new-product, committed. The grader answers from fixtures/persona-change.md.",
+    "query": "Some changes for the todo app: the done list should show 100 instead of 50, each person gets their own list instead of one shared list, and new todos should still go on top.",
+    "files": [
+      "fixtures/persona-change.md"
+    ],
+    "expected_behavior": [
+      "Writes 'Replace' for the 50-item limit expectation, keeping its ID",
+      "Points out that per-person lists contradict the shared-list expectation and asks before writing it as a Replace or Withdraw",
+      "Asks how the product tells people apart, since there is no sign-in yet",
+      "Asks what happens to the existing shared todos",
+      "Tells the human that 'new todos go on top' is already covered, names the ID, and leaves it out of the brief",
+      "Runs check-brief.mjs with --repo and it passes"
+    ],
+    "must_not": [
+      "Renumber or restate an existing line outside a Replace",
+      "Edit expectation files or the lock file in the repository"
+    ]
+  },
+  {
+    "id": "big-project-dump",
+    "skills": [
+      "writing-expectations"
+    ],
+    "setup": "Empty working directory. The grader answers from fixtures/persona-tutors.md.",
+    "query": "I want to build a tutoring marketplace. Students search tutors by subject and price, book lessons, pay in the app, chat with tutors, leave reviews. Tutors manage profiles and calendars synced with Google Calendar. Admins approve tutors and handle refunds. Referral rewards, an analytics dashboard, and iOS and Android apps too. Help me write it all up for the builder.",
+    "files": [
+      "fixtures/persona-tutors.md"
+    ],
+    "expected_behavior": [
+      "Writes a roadmap before any EARS line, and asks the human to approve its milestone order",
+      "Makes M1 the smallest release in which a student finds an approved tutor and books a first lesson, with sign-in and tutor approval in M1",
+      "Puts payments, reviews, and chat in later milestones in the human's order, and the rest under Later, as one-line goals",
+      "Writes EARS lines only for M1",
+      "Keeps each brief within 3 features and 25 lines, splitting M1 into brief-m1-1.md and brief-m1-2.md in dependency order if needed",
+      "Keeps Next.js under Not expectations",
+      "Runs check-brief.mjs on the roadmap and on every brief, and they pass"
+    ],
+    "must_not": [
+      "Write EARS lines for payments, chat, reviews, or any later milestone",
+      "Produce one brief with more than 3 features or 25 lines"
+    ]
+  },
+  {
+    "id": "resume-draft",
+    "skills": [
+      "writing-expectations"
+    ],
+    "setup": "Working directory holds fixtures/resume/roadmap.md and fixtures/resume/brief-m1.md, a draft from an earlier session. The grader answers from fixtures/persona-resume.md.",
+    "query": "Let's continue the dinner planner brief.",
+    "files": [
+      "fixtures/resume/roadmap.md",
+      "fixtures/resume/brief-m1.md",
+      "fixtures/persona-resume.md"
+    ],
+    "expected_behavior": [
+      "Reads the roadmap and the draft brief before asking anything",
+      "Asks the two open questions first, with a proposed answer for each",
+      "Covers the M1 goals the draft doesn't cover yet, such as locking the week, without re-asking what the draft settles",
+      "Adds the answers as EARS lines, sets Open questions to None., and gets approval for the whole brief",
+      "Runs check-brief.mjs without --draft and it passes"
+    ],
+    "must_not": [
+      "Ask again about the sign-in link, the 5-second limit, or voting that the draft already settles",
+      "Rewrite approved lines without the human asking"
+    ]
+  },
+  {
+    "id": "research-common-feature",
+    "skills": [
+      "writing-expectations"
+    ],
+    "setup": "Working directory is the repository produced by bootstrap-new-product, committed. The host has web search. The grader answers from fixtures/persona-recurring.md.",
+    "query": "We want todos that repeat. Can you write up the lines?",
+    "files": [
+      "fixtures/persona-recurring.md"
+    ],
+    "expected_behavior": [
+      "Looks up how several products handle repeating tasks, and which standards apply, before walking the edges",
+      "Brings findings into the rounds as proposed answers with sources, such as asking whether an edit applies to one occurrence, the following ones, or all",
+      "Proposes an answer for a monthly todo made on the 31st, with the reason",
+      "Writes only approved lines into the brief, with no research text in it",
+      "Runs check-brief.mjs with --repo and it passes"
+    ],
+    "must_not": [
+      "Choose a stack or design a schema for recurrence",
+      "Put a line in the brief the human did not approve"
+    ]
+  },
+  {
+    "id": "plain-words-states",
+    "skills": [
+      "writing-expectations"
+    ],
+    "setup": "Empty working directory, no repository. The grader plays a non-technical human and answers from fixtures/persona-booking-states.md.",
+    "query": "I want an app where students find a tutor and book a first lesson. Tutors sign up, and I check them before students can see them. A student picks a free hour from the tutor's week and sends a request. The tutor says yes or no within a day, otherwise it just drops. Later we'll add payments. Can you write up what it should do?",
+    "files": [
+      "fixtures/persona-booking-states.md"
+    ],
+    "expected_behavior": [
+      "Finds the states of the tutor, the hour, and the lesson request from the human's words, including dropped",
+      "Adds endings the human didn't name, such as a request taken back and a booked lesson cancelled, and asks about them",
+      "Asks, as a story with named people, what happens when two students want the same hour before the tutor answers",
+      "Asks, as a story, what happens when the tutor's day to answer runs past the lesson's start time",
+      "Asks what happens to waiting requests and booked lessons when the owner hides a tutor",
+      "Draws the request's states, including dropped and cancelled, in the review chart",
+      "Proposes a standard word such as 'expired' for 'drops', with a reason, and uses the picked word in every line",
+      "Writes approved lines for each of these answers in brief-m1.md"
+    ],
+    "must_not": [
+      "Ask the human to list states or statuses, or use the words 'state machine' or 'status field' with the human",
+      "Write a line the human did not approve"
+    ]
+  }
+]

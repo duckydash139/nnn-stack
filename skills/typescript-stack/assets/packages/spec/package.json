@@ -1,0 +1,29 @@
+{
+  "name": "@<scope>/spec",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./laws": "./laws.ts"
+  },
+  "scripts": {
+    "typecheck": "effect-tsrs diagnostics --project tsconfig.json --strict --type-check",
+    "typecheck:fast": "tsrs --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@effect/vitest": "catalog:",
+    "effect": "catalog:",
+    "vitest": "catalog:"
+  },
+  "devDependencies": {
+    "@effect/language-service": "catalog:",
+    "@types/node": "catalog:",
+    "@yielded/effect-tsrs": "catalog:",
+    "tsrs": "catalog:",
+    "typescript": "catalog:"
+  }
+}

@@ -35,6 +35,17 @@ Write `.claude/skills/verify-<app>/SKILL.md` with YAML frontmatter (`name: verif
 
 Create `.claude/skills/verify-<app>/features/README.md` plus one file per user-facing feature you can identify (aim for the top 3-5 to start, from routes, commands, menus, or docs). Follow the shape in [`references/feature-map-example/`](references/feature-map-example/), with a README index and one file per feature. Each file answers, from the user's point of view: what the feature is, how to reach it, how to drive it with the harness, and what observable end state proves it works. The four H2s are `Sub-features`, `How to get to it (user POV)`, `Driving it with <harness>`, and `Gotchas`. If the seed data lacks a precondition that a journey needs, the journey reports a failure and the reason goes in that feature's `Gotchas`. Never weaken the journey to make it pass. The map is the repo's maintained verification source; a proof that drives one convenient entry point is incomplete when the map lists others.
 
+### When the project keeps journeys
+
+A project with `journeys/spec.json` already says what each flow promises, in generated pages at `journeys/docs/<flow>.md` (see the **prove-behavior** skill). The map then says only how to drive those promises on the running app, so the two can't disagree:
+
+- Make one feature file per flow page, and link the page under the H1. The opening paragraph says what the user sees. Don't restate the page's promises, laws, or terms.
+- Under `Sub-features`, list the page's line IDs, such as `QUO-3`, instead of inventing IDs. Start with lines from `dom` and `browser` journeys, then add `api` lines that a user can reach from the UI.
+- In the driving section, give each line ID one labeled bullet, and follow that journey's steps with the same accessible names its test uses. A `dom` journey's `role("button", { name: "Choose Team" })` is the same handle as Playwright's `getByRole`.
+- Prove what a `dom` journey can't see: startup wiring, hydration, the real request path, the build, layout, and focus. Each feature's first bullet loads the page from a fresh launch and completes one round trip to the server.
+- Record the line ID with every artifact.
+- When the app does something a user would rely on that no line covers, list it under `Gotchas` as a missing line for the owner. Never edit `journeys/`, because its changes need the owner's sign-off.
+
 ## 4. Prove the generated skill before handing it over
 
 Run its own instructions end to end once: launch, doctor, drive ONE mapped feature (one is enough; the map exists so later runs can cover the rest), capture evidence, clean up. After cleanup, confirm the evidence still exists at the named location — a cleanup that eats the proof fails this step. Fix what fails, and run the generated cleanup after every failed iteration too, so broken attempts don't strand processes and ports. A generated skill that was never executed is a draft, not a deliverable. If you proved it in a stand-in for the real target (a container in place of a fresh VM, a local stack in place of a remote one), list every setup step the stand-in did that the target will not. Those steps stay unverified until a run on the real target covers them.

@@ -39,7 +39,8 @@ for (const file of files) {
   const text = readFileSync(file, "utf8");
   for (const [re, msg] of BANNED) if (re.test(text)) report(file, msg);
 
-  for (const [, link] of text.matchAll(/\]\(([^)#\s]+)/g)) {
+  const prose = text.replace(/^(`{3,})[^\n]*\n[\s\S]*?^\1[ \t]*$/gm, "");
+  for (const [, link] of prose.matchAll(/\]\(([^)#\s]+)/g)) {
     if (/^(https?:|mailto:)/.test(link) || ["url", "/AGENTS.md"].includes(link)) continue;
     const target = link.startsWith("/") ? join(ROOT, link) : join(dirname(file), link);
     if (!existsSync(target)) report(file, `broken link \`${link}\``);
