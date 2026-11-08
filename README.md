@@ -5,7 +5,7 @@ A Claude Code plugin built on pstack's principles and verification skills, plus 
 ## Install
 
 ```bash
-/plugin marketplace add /Users/nnn/work/nnn-stack
+/plugin marketplace add duckydash139/nnn-stack
 /plugin install nnn-stack@nnn
 ```
 
